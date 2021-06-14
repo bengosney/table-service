@@ -21,6 +21,10 @@ app.add_middleware(
 async def list_products(db: Session = Depends(get_db)):
     return db.query(models.Product).all()
 
+@app.get("/product/{name}", response_model=schemas.Product)
+async def get_product(name: str, db: Session = Depends(get_db)):
+    return db.query(models.Product).filter(models.Product.name == name).first()
+
 @app.post("/product", response_model=schemas.Product)
 async def create_product(product: schemas.ProductCreate, db: Session = Depends(get_db)):
     db_product = models.Product(name=product.name)

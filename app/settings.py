@@ -14,8 +14,6 @@ class Settings(BaseSettings):
     PORT: int = 8000
     BASE_URL: str = f'{HOST}:{str(PORT)}/'
     MODELS:List[str] = [
-        #'app.models.table',
-        #'app.models.order',
         'app.models.product',
     ]
 

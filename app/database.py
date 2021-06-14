@@ -2,9 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from .settings import get_settings
-
-SQLALCHEMY_DATABASE_URL = "sqlite:///./app.db"
-# SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
+from functools import lru_cache
 
 settings = get_settings()
 
@@ -15,9 +13,13 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
-Base.metadata.create_all(bind=engine)
+@lru_cache
+def init_db():
+    Base.metadata.create_all(bind=engine)
+
 
 def get_db():
+    init_db()
     db = SessionLocal()
     try:
         yield db

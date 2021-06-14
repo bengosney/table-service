@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.types import Date
 from app.database import Base
 
@@ -8,3 +8,4 @@ class Product(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), index=True)
+    inStock = Column(Boolean, default=True)
