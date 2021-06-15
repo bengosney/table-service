@@ -1,0 +1,20 @@
+[project]
+name = "table-service"
+version = "0.1.0"
+description = "API for offering table service"
+authors = [
+    "Ben Gosney <bengosney@googlemail.com>"
+]
+python = "^3.8"
+repository = "https://github.com/bengosney/table-service/"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 120
+target-version = ['py38']
+
+[tool.pycln]
+all = true

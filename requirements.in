@@ -5,3 +5,4 @@ alembic
 sqlalchemy
 databases[sqlite]
 databases[postgresql]
+pre-commit
