@@ -1,4 +1,4 @@
-.PHONY := install, install-dev, help, tools, clean, migrations, migrate
+.PHONY := install, install-dev, help, tools, clean, migrations, migrate, upgrade
 .DEFAULT_GOAL := install-dev
 
 INS=$(wildcard requirements*.in)

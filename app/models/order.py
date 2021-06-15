@@ -3,5 +3,5 @@ from sqlalchemy.types import Date
 from app.database import Base
 from .mixins import BaseClass
 
-class Table(Base, BaseClass):
+class Order(Base, BaseClass):
     pass
