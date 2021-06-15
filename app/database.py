@@ -16,6 +16,7 @@ Base = declarative_base()
 @lru_cache
 def init_db():
     Base.metadata.create_all(bind=engine)
+    return Base
 
 
 def get_db():

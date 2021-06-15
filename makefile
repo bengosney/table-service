@@ -1,8 +1,10 @@
-.PHONY := install, install-dev, help, tools, clean
+.PHONY := install, install-dev, help, tools, clean, migrations, migrate
 .DEFAULT_GOAL := install-dev
 
 INS=$(wildcard requirements*.in)
 REQS=$(subst in,txt,$(INS))
+
+MODELS=$(wildcard app/models/*.py)
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -38,5 +40,14 @@ clean: ## Clean any tempory and build files
 	@rm -rf .pytest_cache
 	@rm -rf *.egg-info
 
-dev: ## Starts the app in dev mode
+dev: install-dev ## Starts the app in dev mode
 	uvicorn app.main:app --reload
+
+alembic/versions: $(MODELS)
+	alembic revision --autogenerate
+	@touch $@
+
+migrations: alembic/versions ## Make db migrations
+
+migrate:
+	alembic upgrade head
