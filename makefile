@@ -1,4 +1,4 @@
-.PHONY := install, install-dev, help, tools, clean, migrations, migrate, upgrade
+.PHONY := install, install-dev, help, tools, clean
 .DEFAULT_GOAL := install-dev
 
 INS=$(wildcard requirements*.in)
@@ -40,14 +40,3 @@ clean: ## Clean any tempory and build files
 	@rm -rf .pytest_cache
 	@rm -rf *.egg-info
 
-dev: install-dev ## Starts the app in dev mode
-	uvicorn app.main:app --reload
-
-alembic/versions: $(MODELS)
-	alembic revision --autogenerate
-	@touch $@
-
-migrations: alembic/versions ## Make db migrations
-
-migrate:
-	alembic upgrade head

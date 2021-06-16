@@ -1,6 +1,1 @@
-fastapi
-uvicorn[standard]
-jinja2
-alembic
-sqlalchemy
-pre-commit
+Django
