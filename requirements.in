@@ -3,6 +3,4 @@ uvicorn[standard]
 jinja2
 alembic
 sqlalchemy
-databases[sqlite]
-databases[postgresql]
 pre-commit
