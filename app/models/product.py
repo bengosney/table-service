@@ -7,5 +7,3 @@ from app.models.mixins import BaseClass
 class Product(Base, BaseClass):
     name = Column(String(255), index=True)
     inStock = Column(Boolean, default=True)
-
-    deleted = Column(Boolean, default=False)
