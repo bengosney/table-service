@@ -1,1 +1,13 @@
-Django
+django
+django-extensions
+django-model-utils
+django-oso
+django-ninja
+djantic
+django-fsm
+django-fsm-admin
+django-fsm-log
+django-heroku
+django-cors-headers
+pydantic
+gunicorn
