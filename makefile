@@ -39,4 +39,3 @@ clean: ## Clean any tempory and build files
 	@rm -rf .mypy_cache
 	@rm -rf .pytest_cache
 	@rm -rf *.egg-info
-

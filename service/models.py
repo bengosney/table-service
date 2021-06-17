@@ -6,9 +6,7 @@ from django.utils.translation import gettext as _
 class BaseMixin:
     position = models.PositiveIntegerField(default=0, blank=False, null=False)
     created = models.DateTimeField(_("Created"), auto_now_add=True, editable=False)
-    last_updated = models.DateTimeField(
-        _("Last Updated"), auto_now=True, editable=False
-    )
+    last_updated = models.DateTimeField(_("Last Updated"), auto_now=True, editable=False)
     deleted = models.BooleanField(_("Deleted"), default=False)
 
     class Meta:
