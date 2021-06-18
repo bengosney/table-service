@@ -9,20 +9,9 @@ class BaseMixin(models.Model):
     last_updated = models.DateTimeField(_("Last Updated"), auto_now=True, editable=False)
     deleted = models.BooleanField(_("Deleted"), default=False)
 
+    _exclude = ["deleted"]
+    _exclude_create = ["position", "created", "last_updated", "deleted"]
+
     class Meta:
         abstract = True
         ordering = ("position", "-created")
-
-
-class Product(BaseMixin):
-    name = models.CharField(_("Name"), max_length=255)
-    in_stock = models.BooleanField(_("In Stock"), default=True)
-
-
-class Table(BaseMixin):
-    pass
-
-
-class Order(BaseMixin):
-    table = models.ForeignKey(Table, on_delete=models.PROTECT)
-    products = models.ManyToManyField(Product)
