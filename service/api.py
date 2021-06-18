@@ -27,14 +27,12 @@ def list_products(request) -> List[Product]:
 
 @product_router.get("/{product_id}", response=ProductSchema)
 def producut_details(request, product_id: int) -> Product:
-    product = Product.objects.get(id=product_id)
-    return product
+    return Product.objects.get(id=product_id)
 
 
 @product_router.post("/", response=ProductSchema, auth=AuthBearer())
 def create_product(request, payload: ProductCreateSchema):
-    product = Product.objects.create(**payload.dict())
-    return product
+    return Product.objects.create(**payload.dict())
 
 
 router.add_router("/products/", product_router)
