@@ -11,3 +11,4 @@ django-heroku
 django-cors-headers
 pydantic
 gunicorn
+Werkzeug

@@ -15,7 +15,7 @@ class BaseMixin(models.Model):
 
 
 class Product(BaseMixin):
-    title = models.CharField(_("Name"), max_length=255)
+    name = models.CharField(_("Name"), max_length=255)
     in_stock = models.BooleanField(_("In Stock"), default=True)
 
 

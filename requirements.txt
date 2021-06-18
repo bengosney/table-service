@@ -65,6 +65,8 @@ sqlparse==0.4.1
     # via django
 typing-extensions==3.10.0.0
     # via pydantic
+werkzeug==2.0.1
+    # via -r requirements.in
 whitenoise==5.2.0
     # via django-heroku
 
