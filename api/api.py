@@ -26,13 +26,9 @@ class CRUD_types(Enum):
     UPDATE = 4
     DELETE = 5
 
-    @classmethod
-    def all(cls):
-        return list(cls)
-
 
 def make_CRUD(
-    model: Type[Model], read_auth: Any = NOT_SET, write_auth: Any = NOT_SET, types: List[CRUD_types] = CRUD_types.all()
+    model: Type[Model], read_auth: Any = NOT_SET, write_auth: Any = NOT_SET, types: List[CRUD_types] = list(CRUD_types)
 ) -> Router:
     router = Router()
 
