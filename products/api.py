@@ -1,22 +1,11 @@
 # Third Party
-from ninja.router import Router
 
 # First Party
 from api.api import make_CRUD
 from products.models import Category, Product
-from products.schemas import (
-    CategoryCreateSchema,
-    CategorySchema,
-    CategoryUpdateSchema,
-    ProductCreateSchema,
-    ProductSchema,
-    ProductUpdateSchema,
-)
+from tableservice.auth import AuthBearer
 
-router = Router()
+router = make_CRUD(Product, write_auth=AuthBearer)
+category_router = make_CRUD(Category, write_auth=AuthBearer)
 
-product_router = make_CRUD(Product, ProductSchema, ProductCreateSchema, ProductUpdateSchema)
-category_router = make_CRUD(Category, CategorySchema, CategoryCreateSchema, CategoryUpdateSchema)
-
-router.add_router("/product/", product_router)
 router.add_router("/category/", category_router)
