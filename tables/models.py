@@ -1,6 +1,6 @@
 # First Party
-from tableservice.modelMixins import BaseMixin
+from tableservice.modelMixins import BaseModel
 
 
-class Table(BaseMixin):
+class Table(BaseModel):
     pass

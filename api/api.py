@@ -11,7 +11,7 @@ from ninja import Router
 from ninja.constants import NOT_SET
 
 # First Party
-from api.schema import make_schemas
+from api.schema import make_schemas, schema_types
 
 
 def ucfirst(string: str) -> str:
@@ -20,11 +20,20 @@ def ucfirst(string: str) -> str:
 
 @unique
 class CRUD_types(Enum):
-    LIST = 1
-    DETAILS = 2
-    CREATE = 3
-    UPDATE = 4
-    DELETE = 5
+    LIST = 0
+    DETAILS = 1
+    CREATE = 2
+    UPDATE = 3
+    DELETE = 4
+
+
+schema_types_map = {
+    CRUD_types.LIST: [schema_types.FETCH],
+    CRUD_types.DETAILS: [schema_types.FETCH],
+    CRUD_types.CREATE: [schema_types.CREATE, schema_types.CREATE],
+    CRUD_types.UPDATE: [schema_types.UPDATE, schema_types.CREATE],
+    CRUD_types.DELETE: [],
+}
 
 
 def make_CRUD(
@@ -32,7 +41,8 @@ def make_CRUD(
 ) -> Router:
     router = Router()
 
-    responseSchema, createSchema, updateSchema = make_schemas(model)
+    required_schemas = [i for t in types for i in schema_types_map[t]]
+    responseSchema, createSchema, updateSchema = make_schemas(model, types=required_schemas)
 
     nameSingular = model._meta.verbose_name.title()
     namePlural = model._meta.verbose_name_plural.title()
