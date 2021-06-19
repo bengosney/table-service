@@ -1,27 +1,22 @@
-# Standard Library
-from typing import List
-
 # Third Party
-from ninja import Router
+from ninja.router import Router
 
 # First Party
-from products.models import Product
-from products.schemas import ProductCreateSchema, ProductSchema
-from tableservice.auth import AuthBearer
+from api.api import make_CRUD
+from products.models import Category, Product
+from products.schemas import (
+    CategoryCreateSchema,
+    CategorySchema,
+    CategoryUpdateSchema,
+    ProductCreateSchema,
+    ProductSchema,
+    ProductUpdateSchema,
+)
 
 router = Router()
 
+product_router = make_CRUD(Product, ProductSchema, ProductCreateSchema, ProductUpdateSchema)
+category_router = make_CRUD(Category, CategorySchema, CategoryCreateSchema, CategoryUpdateSchema)
 
-@router.get("/", response=List[ProductSchema])
-def list_products(request) -> List[Product]:
-    return [p for p in Product.objects.all()]
-
-
-@router.get("/{product_id}", response=ProductSchema)
-def product_details(request, product_id: int) -> Product:
-    return Product.objects.get(id=product_id)
-
-
-@router.post("/", response=ProductSchema, auth=AuthBearer())
-def create_product(request, payload: ProductCreateSchema):
-    return Product.objects.create(**payload.dict())
+router.add_router("/product/", product_router)
+router.add_router("/category/", category_router)
