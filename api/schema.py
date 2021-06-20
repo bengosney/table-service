@@ -36,7 +36,7 @@ def make_schemas(
         exclude = []
 
     try:
-        create_exclude = [f for f in model._create_exclude if f in valid_fields]
+        create_exclude = [f for f in model._exclude_create if f in valid_fields]
     except AttributeError:
         create_exclude = []
 

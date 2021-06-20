@@ -1,6 +1,9 @@
 # Standard Library
 from pathlib import Path
 
+# Third Party
+from corsheaders.defaults import default_methods
+
 # First Party
 from tableservice.settingModel import Settings
 
@@ -30,6 +33,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_extensions",
+    "corsheaders",
     "products",
     "tables",
     "orders",
@@ -38,6 +42,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -119,3 +124,19 @@ STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.+\.isitbinday\.com$",
+    r"^http://localhost:[0-9]+$",
+    r"^http://192\.168\.1\.[0-9]{1,3}:[0-9]+$",
+]
+
+CORS_ALLOW_METHODS = list(
+    set(
+        list(default_methods)
+        + [
+            "PATCH",
+        ]
+    )
+)
