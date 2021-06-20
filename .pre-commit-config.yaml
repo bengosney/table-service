@@ -12,7 +12,6 @@ repos:
       - id: check-merge-conflict
       - id: check-toml
       - id: check-yaml
-      - id: check-added-large-files
       - id: detect-aws-credentials
       - id: detect-private-key
   - repo: https://github.com/MarcoGorelli/absolufy-imports
