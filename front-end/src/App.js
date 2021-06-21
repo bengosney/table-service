@@ -1,37 +1,23 @@
-import { useEffect, useState } from "react";
 import Form from "@rjsf/fluent-ui";
-import {
-  Nav,
-  INavLink,
-  INavStyles,
-  INavLinkGroup,
-} from "@fluentui/react/lib/Nav";
-import { useHistory } from "react-router-dom";
-
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import useGroupedSchemas from "./hooks/useGroupedSchemas";
 import useSettings from "./hooks/useSettings";
+import Nav from './components/nav';
+import Admin from './components/admin';
+import { ucfirst } from "./utils";
 
 import "./App.css";
 
-const L = (props) => {
-  console.log(props);
-};
 
 function App() {
-  const history = useHistory();
   const settings = useSettings();
   const grouped_schemas = useGroupedSchemas(settings.apiURL);
 
-  const navItems = Object.keys(grouped_schemas).map((key) => {
-    const url = `/orm/${key.toLowerCase()}`;
+  const navItems = Object.keys(grouped_schemas).filter((key) => key.toLowerCase() != 'order').map((key) => {
+    const url = `/admin/${key.toLowerCase()}`;
     return {
-      name: key,
+      name: ucfirst(key),
       url: url,
-      onClick: (e) => {
-        e.preventDefault();
-        history.push(url);
-      },
     };
   });
 
@@ -41,13 +27,14 @@ function App() {
         {
           name: "Home",
           url: "/",
-          onclick: (e) => {
-            e.preventDefault();
-            history.push("/");
-          },
         },
         {
-          name: "ORM",
+          name: "Orders",
+          url: "/orders/",
+        },
+        {
+          name: "Admin",
+          url: "/admin/",
           links: navItems,
         },
       ],
@@ -59,7 +46,7 @@ function App() {
     <div className="App">
       <Router>
         <div>
-          <Nav groups={nav} />
+          <Nav groups={nav}  />
         </div>
         <div>
           {Object.keys(schemas).map((k) => (
@@ -71,11 +58,14 @@ function App() {
           ))}
         </div>
         <Switch>
-          <Route path="/">
+          <Route path="/" exact>
             <h1>Home</h1>
           </Route>
-          <Route path="/orm">
-            <h1>ORM</h1>
+          <Route path="/orders/">
+            <h1>Orders</h1>
+          </Route>
+          <Route path="/admin/">
+            <Admin />
           </Route>
         </Switch>
       </Router>

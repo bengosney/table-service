@@ -13,7 +13,7 @@ const useGroupedSchemas = (url) => {
       const grouped_schemas = Object.keys(schemas).reduce((groups, key) => {
         const parts = key.split("_");
         const type = parts[1] || "details";
-        const name = parts[0];
+        const name = parts[0].toLowerCase();
         groups[name] = groups[name] || {};
         groups[name][type.toLowerCase()] = schemas[key];
         return groups;
