@@ -32,8 +32,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "channels",
     "django_extensions",
     "corsheaders",
+    "chat",
     "products",
     "tables",
     "orders",
@@ -69,6 +71,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "tableservice.wsgi.application"
+
+ASGI_APPLICATION = "tableservice.asgi.application"
 
 
 # Database
