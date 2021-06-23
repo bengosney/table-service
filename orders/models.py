@@ -18,6 +18,9 @@ class Category(BaseModel):
     class Meta:
         verbose_name_plural = "Categories"
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Product(BaseModel):
     name = models.CharField(_("Name"), max_length=255)
@@ -25,9 +28,13 @@ class Product(BaseModel):
     categories = models.ManyToManyField(Category)
     price = models.FloatField(_("Price"), default=0)
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Table(BaseModel):
-    pass
+    def __str__(self) -> str:
+        return f"Table {self.id}"
 
 
 class OrderStates(Enum):
@@ -48,9 +55,7 @@ class OrderStates(Enum):
 
 
 class Order(NoDelete, Info):
-
     table = models.ForeignKey(Table, on_delete=models.PROTECT)
-    products = models.ManyToManyField(Product)
 
     state = FSMField(
         _("State"),
@@ -60,6 +65,9 @@ class Order(NoDelete, Info):
         max_length=OrderStates.maxLength(),
     )
 
+    def __str__(self) -> str:
+        return f"{self.table} - {self.state} - {self.last_updated}"
+
     @transition(field=state, source=OrderStates.Unprocessed, target=OrderStates.Processing)
     def processing(self):
         pass
@@ -67,3 +75,9 @@ class Order(NoDelete, Info):
     @transition(field=state, source=[OrderStates.Unprocessed, OrderStates.Processing], target=OrderStates.Processed)
     def processed(self):
         pass
+
+
+class OrderLine(Info):
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    quantity = models.IntegerField(_("Quantity"))
+    order = models.ForeignKey(Order, on_delete=models.PROTECT)

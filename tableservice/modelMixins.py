@@ -23,15 +23,15 @@ class SoftDeletionQuerySet(QuerySet):
         return super().delete()
 
     def alive(self):
-        return self.filter(deleted=None)
+        return self.filter(deleted=False)
 
     def dead(self):
-        return self.exclude(deleted=None)
+        return self.exclude(deleted=False)
 
 
 class SoftDeletionManager(models.Manager):
     def get_queryset(self):
-        return SoftDeletionQuerySet(self.model).filter(deleted=None)
+        return SoftDeletionQuerySet(self.model).filter(deleted=False)
 
     def hard_delete(self):
         return self.get_queryset().hard_delete()
