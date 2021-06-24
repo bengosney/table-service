@@ -5,7 +5,7 @@ from pathlib import Path
 from corsheaders.defaults import default_methods
 
 # First Party
-from tableservice.settingModel import Settings
+from tableservice.settingModel import Settings as SettingsModel
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-f5^pf5ru7f)9#!f%a0q+p&mc8$6i@51a2t2p@fr)(3es1k!fo^"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = Settings.get().ENV != "production"
+DEBUG = SettingsModel.get().ENV != "production"
 
 ALLOWED_HOSTS = []
 

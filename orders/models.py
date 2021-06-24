@@ -59,7 +59,7 @@ class Order(NoDelete, Info):
 
     state = FSMField(
         _("State"),
-        default=OrderStates.Unprocessed,
+        default=OrderStates.Unprocessed.value,
         choices=OrderStates.choices(),
         protected=True,
         max_length=OrderStates.maxLength(),
@@ -68,12 +68,16 @@ class Order(NoDelete, Info):
     def __str__(self) -> str:
         return f"{self.table} - {self.state} - {self.last_updated}"
 
-    @transition(field=state, source=OrderStates.Unprocessed, target=OrderStates.Processing)
-    def processing(self):
+    @transition(field=state, source=OrderStates.Unprocessed.value, target=OrderStates.Processing.value)
+    def process(self):
         pass
 
-    @transition(field=state, source=[OrderStates.Unprocessed, OrderStates.Processing], target=OrderStates.Processed)
-    def processed(self):
+    @transition(
+        field=state,
+        source=[OrderStates.Unprocessed.value, OrderStates.Processing.value],
+        target=OrderStates.Processed.value,
+    )
+    def complete(self):
         pass
 
 

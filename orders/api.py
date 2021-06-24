@@ -16,6 +16,17 @@ product_router.add_router("/category/", category_router)
 make_schemas(Order, depth=2, types=[schema_types.FETCH])
 order_router = make_CRUD(Order, read_auth=AuthBearer, types=[CRUD_types.LIST, CRUD_types.DETAILS])
 
+
+@order_router.get("process")
+def process(request, order_id: int):
+    pass
+
+
+@order_router.get("complete")
+def complete(request, order_id: int):
+    pass
+
+
 router = Router()
 router.add_router("/product/", product_router)
 router.add_router("/table/", table_router)
