@@ -34,7 +34,7 @@ class Product(BaseModel):
 
 class Table(BaseModel):
     def __str__(self) -> str:
-        return f"Table {self.id}"
+        return f"Table {self.pk}"
 
 
 class OrderStates(Enum):

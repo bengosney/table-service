@@ -12,6 +12,7 @@ from ninja.constants import NOT_SET
 
 # First Party
 from api.schema import make_schemas, schema_types
+from api.utils import verbose_name, verbose_name_plural
 
 
 def ucfirst(string: str) -> str:
@@ -44,15 +45,15 @@ def make_CRUD(
     required_schemas = [i for t in types for i in schema_types_map[t]]
     responseSchema, createSchema, updateSchema = make_schemas(model, types=required_schemas)
 
-    nameSingular = model._meta.verbose_name.title()
-    namePlural = model._meta.verbose_name_plural.title()
+    nameSingular = verbose_name(model)
+    namePlural = verbose_name_plural(model)
 
     id = f"{model._meta.app_label}-{model._meta.model_name}"
 
-    if CRUD_types.LIST in types:
+    if CRUD_types.LIST in types and responseSchema is not None:
 
         @router.get(
-            "/",
+            "/list",
             response=List[responseSchema],
             operation_id=f"{id}-list",
             summary=f"List {namePlural}",
@@ -62,7 +63,7 @@ def make_CRUD(
         def list(request) -> List[model]:
             return [i for i in model.objects.all()]
 
-    if CRUD_types.DETAILS in types:
+    if CRUD_types.DETAILS in types and responseSchema is not None:
 
         @router.get(
             "/{id}",
@@ -75,7 +76,7 @@ def make_CRUD(
         def details(request, id: int) -> model:
             return get_object_or_404(model, id=id)
 
-    if CRUD_types.CREATE in types:
+    if CRUD_types.CREATE in types and createSchema is not None:
 
         @router.post(
             "/",
@@ -88,7 +89,7 @@ def make_CRUD(
         def create(request, payload: createSchema):
             return model.objects.create(**payload.dict())
 
-    if CRUD_types.UPDATE in types:
+    if CRUD_types.UPDATE in types and updateSchema is not None:
 
         @router.put(
             "/{id}",

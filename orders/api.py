@@ -1,5 +1,11 @@
+# Django
+from django.db import transaction
+from django.shortcuts import get_object_or_404
+
 # Third Party
+from django_fsm import TransitionNotAllowed
 from ninja import Router
+from ninja.errors import HttpError
 
 # First Party
 from api.api import CRUD_types, make_CRUD
@@ -17,14 +23,32 @@ make_schemas(Order, depth=2, types=[schema_types.FETCH])
 order_router = make_CRUD(Order, read_auth=AuthBearer, types=[CRUD_types.LIST, CRUD_types.DETAILS])
 
 
-@order_router.get("process")
-def process(request, order_id: int):
-    pass
+@order_router.get("/{id}/process")
+def process(request, id: int):
+    order = get_object_or_404(Order, id=id)
+
+    try:
+        with transaction.atomic():
+            order.process()
+            order.save()
+    except TransitionNotAllowed as e:
+        raise HttpError(400, f"{e}")
+
+    return {"success": True}
 
 
-@order_router.get("complete")
-def complete(request, order_id: int):
-    pass
+@order_router.get("/{id}/complete")
+def complete(request, id: int):
+    order = get_object_or_404(Order, id=id)
+
+    try:
+        with transaction.atomic():
+            order.complete()
+            order.save()
+    except TransitionNotAllowed as e:
+        raise HttpError(400, f"{e}")
+
+    return {"success": True}
 
 
 router = Router()
