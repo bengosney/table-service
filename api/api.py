@@ -60,7 +60,7 @@ def make_CRUD(
             auth=read_auth,
             description=f"List {namePlural}",
         )
-        def list(request) -> List[model]:
+        def list(request) -> List[Type[Model]]:
             return [i for i in model.objects.all()]
 
     if CRUD_types.DETAILS in types and responseSchema is not None:
@@ -73,7 +73,7 @@ def make_CRUD(
             summary=ucfirst(f"{namePlural} details"),
             description=f"Get {nameSingular} details",
         )
-        def details(request, id: int) -> model:
+        def details(request, id: int) -> Model:
             return get_object_or_404(model, id=id)
 
     if CRUD_types.CREATE in types and createSchema is not None:

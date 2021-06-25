@@ -5,3 +5,4 @@ icecream
 black
 graphviz
 mypy
+django-stubs

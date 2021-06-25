@@ -1,5 +1,5 @@
 # Standard Library
-from typing import Any, Dict, Tuple
+from typing import Any, List
 
 # Django
 from django.db import models
@@ -11,7 +11,7 @@ class NoDelete(models.Model):
     class Meta:
         abstract = True
 
-    def delete(self, using: Any, keep_parents: bool) -> Tuple[int, Dict[str, int]]:
+    def delete(self, using: Any = None, keep_parents: bool = False):
         return (0, {})
 
 
@@ -46,13 +46,13 @@ class SoftDelete(models.Model):
     class Meta:
         abstract = True
 
-    def delete(self, using: Any, keep_parents: bool) -> Tuple[int, Dict[str, int]]:
+    def delete(self, using: Any = None, keep_parents: bool = False):
         self.deleted = True
         self.save()
 
         return (1, {f"{self.__class__}": 1})
 
-    def hard_delete(self, using: Any, keep_parents: bool) -> Tuple[int, Dict[str, int]]:
+    def hard_delete(self, using: Any = None, keep_parents: bool = False):
         return super().delete(using=using, keep_parents=keep_parents)
 
 
@@ -61,8 +61,8 @@ class Info(models.Model):
     created = models.DateTimeField(_("Created"), auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(_("Last Updated"), auto_now=True, editable=False)
 
-    _exclude = []
-    _exclude_create = [
+    _exclude: List[str] = []
+    _exclude_create: List[str] = [
         "id",
         "position",
         "created",

@@ -1,5 +1,6 @@
 # Standard Library
 from pathlib import Path
+from typing import List
 
 # Third Party
 from corsheaders.defaults import default_methods
@@ -20,7 +21,7 @@ SECRET_KEY = "django-insecure-f5^pf5ru7f)9#!f%a0q+p&mc8$6i@51a2t2p@fr)(3es1k!fo^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = SettingsModel.get().ENV != "production"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: List[str] = []
 
 
 # Application definition

@@ -5,9 +5,13 @@ from typing import Type
 from django.db import models
 
 
-def verbose_name(model: Type[models.Model]):
+def verbose_name(model: Type[models.Model]) -> str:
     return model._meta.verbose_name.title() if model._meta.verbose_name is not None else f"{model.__class__}"
 
 
-def verbose_name_plural(model: Type[models.Model]):
-    model._meta.verbose_name_plural.title() if model._meta.verbose_name_plural is not None else f"{model.__class__}s"
+def verbose_name_plural(model: Type[models.Model]) -> str:
+    return (
+        model._meta.verbose_name_plural.title()
+        if model._meta.verbose_name_plural is not None
+        else f"{model.__class__}s"
+    )
