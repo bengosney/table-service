@@ -2,6 +2,7 @@
 from enum import Enum, auto
 
 # Django
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext as _
 
@@ -56,6 +57,7 @@ class OrderStates(Enum):
 
 class Order(NoDelete, Info):
     table = models.ForeignKey(Table, on_delete=models.PROTECT)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, default=None)
 
     state = FSMField(
         _("State"),
@@ -69,8 +71,9 @@ class Order(NoDelete, Info):
         return f"{self.table} - {self.state} - {self.last_updated}"
 
     @transition(field=state, source=OrderStates.Unprocessed.value, target=OrderStates.Processing.value)
-    def process(self):
-        pass
+    def process(self, request=None):
+        if request is not None and request.user is not None:
+            self.user = request.user
 
     @transition(
         field=state,

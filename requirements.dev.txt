@@ -37,7 +37,11 @@ identify==2.2.10
 iniconfig==1.1.1
     # via pytest
 mypy-extensions==0.4.3
-    # via black
+    # via
+    #   black
+    #   mypy
+mypy==0.910
+    # via -r requirements.dev.in
 nodeenv==1.6.0
     # via pre-commit
 packaging==20.9
@@ -71,9 +75,12 @@ six==1.16.0
 toml==0.10.2
     # via
     #   black
+    #   mypy
     #   pep517
     #   pre-commit
     #   pytest
+typing-extensions==3.10.0.0
+    # via mypy
 virtualenv==20.4.7
     # via pre-commit
 

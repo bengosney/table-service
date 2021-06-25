@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django_fsm import TransitionNotAllowed
 from ninja import Router
 from ninja.errors import HttpError
+from ninja.security import django_auth
 
 # First Party
 from api.api import CRUD_types, make_CRUD
@@ -20,7 +21,8 @@ table_router = make_CRUD(Table, write_auth=AuthBearer)
 product_router.add_router("/category/", category_router)
 
 make_schemas(Order, depth=2, types=[schema_types.FETCH])
-order_router = make_CRUD(Order, read_auth=AuthBearer, types=[CRUD_types.LIST, CRUD_types.DETAILS])
+order_router = make_CRUD(Order, types=[CRUD_types.LIST, CRUD_types.DETAILS])
+order_router.auth = django_auth
 
 
 @order_router.get("/{id}/process")
@@ -29,7 +31,7 @@ def process(request, id: int):
 
     try:
         with transaction.atomic():
-            order.process()
+            order.process(request)
             order.save()
     except TransitionNotAllowed as e:
         raise HttpError(400, f"{e}")
