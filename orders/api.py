@@ -3,7 +3,7 @@ from django.db import transaction
 from django.shortcuts import get_object_or_404
 
 # Third Party
-from django_fsm import TransitionNotAllowed
+from django_fsm import TransitionNotAllowed  # type: ignore
 from ninja import Router
 from ninja.errors import HttpError
 from ninja.security import django_auth

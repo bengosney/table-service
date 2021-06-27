@@ -1,6 +1,6 @@
 # Standard Library
 from enum import Enum, unique
-from typing import Any, List, Type
+from typing import Any, Dict, List, Type
 
 # Django
 from django.db.models import Model
@@ -27,14 +27,15 @@ class CRUD_types(Enum):
     UPDATE = 3
     DELETE = 4
 
-
-schema_types_map = {
-    CRUD_types.LIST: [schema_types.FETCH],
-    CRUD_types.DETAILS: [schema_types.FETCH],
-    CRUD_types.CREATE: [schema_types.CREATE, schema_types.CREATE],
-    CRUD_types.UPDATE: [schema_types.UPDATE, schema_types.CREATE],
-    CRUD_types.DELETE: [],
-}
+    @classmethod
+    def get_type_map(cls) -> Dict["CRUD_types", List[schema_types]]:
+        return {
+            cls.LIST: [schema_types.FETCH],
+            cls.DETAILS: [schema_types.FETCH],
+            cls.CREATE: [schema_types.CREATE, schema_types.CREATE],
+            cls.UPDATE: [schema_types.UPDATE, schema_types.CREATE],
+            cls.DELETE: [],
+        }
 
 
 def make_CRUD(
@@ -42,7 +43,7 @@ def make_CRUD(
 ) -> Router:
     router = Router()
 
-    required_schemas = [i for t in types for i in schema_types_map[t]]
+    required_schemas = [i for t in types for i in CRUD_types.get_type_map()[t]]
     responseSchema, createSchema, updateSchema = make_schemas(model, types=required_schemas)
 
     nameSingular = verbose_name(model)
@@ -54,7 +55,7 @@ def make_CRUD(
 
         @router.get(
             "/list",
-            response=List[responseSchema],
+            response=List[responseSchema],  # type: ignore
             operation_id=f"{id}-list",
             summary=f"List {namePlural}",
             auth=read_auth,
@@ -86,8 +87,8 @@ def make_CRUD(
             summary=f"Create {nameSingular}",
             description=f"Create a new {nameSingular}",
         )
-        def create(request, payload: createSchema):
-            return model.objects.create(**payload.dict())
+        def create(request, payload: createSchema):  # type: ignore
+            return model.objects.create(**payload.dict())  # type: ignore
 
     if CRUD_types.UPDATE in types and updateSchema is not None:
 
@@ -99,10 +100,10 @@ def make_CRUD(
             summary=f"Update {nameSingular}",
             description=f"Update a {nameSingular}",
         )
-        def update(request, payload: updateSchema, id: int):
+        def update(request, payload: updateSchema, id: int):  # type: ignore
             item = get_object_or_404(model, id=id)
 
-            for attr, value in payload.dict().items():
+            for attr, value in payload.dict().items():  # type: ignore
                 setattr(item, attr, value)
 
             item.save()

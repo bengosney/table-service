@@ -2,8 +2,8 @@
 from django.contrib import admin
 
 # Third Party
-from django_fsm_log.admin import StateLogInline
-from fsm_admin.mixins import FSMTransitionMixin
+from django_fsm_log.admin import StateLogInline  # type: ignore
+from fsm_admin.mixins import FSMTransitionMixin  # type: ignore
 
 # First Party
 from orders.models import Category, Order, OrderLine, Product, Table

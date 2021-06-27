@@ -1,3 +1,9 @@
 {
-    "python.pythonPath": "/home/ben/projects/table-service/bin/python"
+    "python.pythonPath": "/home/ben/projects/table-service/bin/python",
+    "files.associations": {
+        "**/*.html": "html",
+        "**/templates/**/*.html": "django-html",
+        "**/templates/**/*": "django-txt",
+        "**/requirements{/**,*}.{txt,in}": "pip-requirements"
+    }
 }

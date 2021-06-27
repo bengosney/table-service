@@ -10,4 +10,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", api.urls),
     path("chat/", include("chat.urls")),
+    path("", include("orders.urls")),
 ]

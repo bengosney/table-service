@@ -7,7 +7,7 @@ from django.db import models
 from django.utils.translation import gettext as _
 
 # Third Party
-from django_fsm import FSMField, transition
+from django_fsm import FSMField, transition  # type: ignore
 
 # First Party
 from tableservice.modelMixins import BaseModel, Info, NoDelete

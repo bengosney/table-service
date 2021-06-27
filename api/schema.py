@@ -36,12 +36,12 @@ def make_schemas(
 
     valid_fields = [f.name for f in model._meta.get_fields()]
     try:
-        exclude = [f for f in model._exclude if f in valid_fields]
+        exclude = [f for f in model._exclude if f in valid_fields]  # type: ignore
     except AttributeError:
         exclude = []
 
     try:
-        create_exclude = [f for f in model._exclude_create if f in valid_fields]
+        create_exclude = [f for f in model._exclude_create if f in valid_fields]  # type: ignore
     except AttributeError:
         create_exclude = []
 
