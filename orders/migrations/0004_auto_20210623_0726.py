@@ -3,11 +3,11 @@
 from django.db import migrations
 
 def example_products(apps, schema_editor):
-    Category =apps.get_model('orders', 'Category') 
+    Category =apps.get_model('orders', 'Category')
     Product = apps.get_model('orders', 'Product')
     Table = apps.get_model('orders', 'Table')
 
-    for i in range(14):
+    for _ in range(14):
         table = Table()
         table.save()
 
