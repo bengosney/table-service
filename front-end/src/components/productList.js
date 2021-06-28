@@ -2,7 +2,7 @@ import React from 'react';
 import Fetch from './Fetch';
 
 const ProductList = (props) => {
-    return <Fetch url={'http://localhost:8000/api/product/list'}>
+    return <Fetch url={'/product/list'}>
         <ProductListInner {...props} />
     </Fetch>
 }
