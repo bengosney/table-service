@@ -1,3 +1,6 @@
+# Standard Library
+from typing import List
+
 # Django
 from django.db import transaction
 from django.shortcuts import get_object_or_404
@@ -19,6 +22,15 @@ category_router = make_CRUD(Category, write_auth=AuthBearer)
 table_router = make_CRUD(Table, write_auth=AuthBearer)
 
 product_router.add_router("/category/", category_router)
+
+
+product_schema, _, _ = make_schemas(Product)
+
+
+@category_router.get("/{id}/products", response=List[product_schema])  # type: ignore
+def list_products(request, id: int):
+    return [i for i in Product.objects.filter(categories__id=id)]
+
 
 make_schemas(Order, depth=2, types=[schema_types.FETCH])
 order_router = make_CRUD(Order, types=[CRUD_types.LIST, CRUD_types.DETAILS])

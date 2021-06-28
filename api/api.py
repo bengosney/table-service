@@ -37,6 +37,10 @@ class CRUD_types(Enum):
             cls.DELETE: [],
         }
 
+    @classmethod
+    def get(cls, exclude: List["CRUD_types"] = []) -> List["CRUD_types"]:
+        return [t for t in cls if t not in exclude]
+
 
 def make_CRUD(
     model: Type[Model], read_auth: Any = NOT_SET, write_auth: Any = NOT_SET, types: List[CRUD_types] = list(CRUD_types)
