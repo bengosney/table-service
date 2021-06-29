@@ -1,17 +1,28 @@
-import React from 'react';
-import Fetch from './Fetch';
+import React from "react";
+import Fetch from "./Fetch";
 
-const ProductList = (props) => {
-    return <Fetch url={'/product/list'}>
-        <ProductListInner {...props} />
+export const ProductListFetch = ({ category = null, ...props }) => {
+  const url =
+    category === null
+      ? "/product/list"
+      : `/product/category/${category}/products`;
+
+  return (
+    <Fetch url={url}>
+      <ProductList {...props} />
     </Fetch>
-}
+  );
+};
 
-const ProductListInner = ({data}) => {
-    console.log(data);
-    return <ul>
-        {data.map(p => <li key={p.id}>{p.name}</li>)}
+export const ProductList = ({ data }) => {
+  console.log(data);
+  return (
+    <ul>
+      {data.map(p => (
+        <li key={p.id}>{p.name}</li>
+      ))}
     </ul>
-}
+  );
+};
 
-export default ProductList;
+export default ProductListFetch;
