@@ -1,7 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
-import ProductList from './components/productList';
-import CategoryList from './components/categoryList';
+import CategoryList from "./components/categoryList";
+import { initializeIcons } from '@fluentui/font-icons-mdl2';
+initializeIcons();
 
 function App() {
   return (
