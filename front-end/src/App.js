@@ -1,14 +1,14 @@
 import CategoryList from "./components/categoryList";
-import { initializeIcons } from '@fluentui/font-icons-mdl2';
-initializeIcons();
+import { Grommet, Header, Main, Text  } from "grommet";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
+    <Grommet plain>
+      <Main pad={'medium'}>
+        <Header>Table Service</Header>
         <CategoryList />
-      </header>
-    </div>
+      </Main>
+    </Grommet>
   );
 }
 

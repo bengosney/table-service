@@ -1,15 +1,6 @@
 import React from "react";
 import Fetch from "./Fetch";
-
-import {
-  DocumentCard,
-  DocumentCardActions,
-  DocumentCardActivity,
-  DocumentCardLocation,
-  DocumentCardPreview,
-  DocumentCardTitle,
-  IDocumentCardPreviewProps,
-} from '@fluentui/react/lib/DocumentCard';
+import { Box, Card, CardBody, CardHeader, CardFooter, Button } from "grommet";
 
 export const ProductListFetch = ({ category = null, ...props }) => {
   const url =
@@ -24,46 +15,17 @@ export const ProductListFetch = ({ category = null, ...props }) => {
   );
 };
 
-const documentCardActions = [
-  {
-    iconProps: { iconName: 'Share' },
-    onClick: console.log('share'),
-    ariaLabel: 'share action',
-  },
-  {
-    iconProps: { iconName: 'Pin' },
-    onClick: console.log( 'pin'),
-    ariaLabel: 'pin action',
-  },
-  {
-    iconProps: { iconName: 'Ringer' },
-    onClick: console.log('notifications'),
-    ariaLabel: 'notifications action',
-  },
-];
-
 export const ProductList = ({ data }) => {
   return (
-    <div>
+    <Box>
       {data.map(p => (
-        <DocumentCard key={p.id}>
-          <DocumentCardTitle title={p.name} />
-          <DocumentCardActions actions={documentCardActions} views={432} />
-        </DocumentCard>
+        <Card pad={"medium"}>
+          <CardHeader>{p.name}</CardHeader>
+          <CardBody>Description</CardBody>
+          <CardFooter>£0.00 <Button>Add to order</Button></CardFooter>
+        </Card>
       ))}
-    </div>
-  );
-};
-
-export const ProductListy = ({ data }) => {
-  return (
-    <ul>
-      {data.map(p => (
-        <li key={p.id}>
-          {p.name}
-        </li>
-      ))}
-    </ul>
+    </Box>
   );
 };
 
